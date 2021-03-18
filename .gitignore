@@ -8,7 +8,7 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-
+node_modules
 # macOS
 .DS_Store
 
@@ -24,4 +24,5 @@ web-build/
 !.vscode/extensions.json
 *.code-workspace
 .eslintrc
+node_modules
 # End of https://www.toptal.com/developers/gitignore/api/vscode
