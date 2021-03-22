@@ -1,5 +1,5 @@
 import React from 'react'
-import { SafeAreaView } from 'react-native'
+import { SafeAreaView, StyleSheet } from 'react-native'
 import { QuizContext } from './QuizContext'
 
 class QuizScreen extends React.Component{

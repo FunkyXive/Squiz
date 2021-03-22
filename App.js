@@ -33,7 +33,7 @@ class App extends React.Component {
   }
 
   playQuiz = (index) => {
-    const {
+    let {
       uncompletedQuizzes,
       currentQuiz
     } = this.state

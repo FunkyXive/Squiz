@@ -1,24 +1,32 @@
 import React from 'react';
-import { Button, StyleSheet, SafeAreaView } from 'react-native';
+import { StyleSheet, SafeAreaView, Button, View } from 'react-native';
 import { Text, Icon } from 'react-native-elements'
 import { CategoryContext } from './CategoryContext'
 
 class HomeScreen extends React.Component {
+    static contextType = CategoryContext
     render() {
+        /* console.log(this.context)
+        let playQuiz = this.context.playQuiz
         let quizButtons = this.context.uncompletedQuizzes.map(function (val, index) {
             return (
-                <Icon reverse title={val} key={val} onPress={() => this.context.playQuiz(index)}></Icon>
-            )
-        })
+                <Icon reverse title={val} key={val} onPress={playQuiz(index)}></Icon>
+                //<Text key={val}>{this.context}</Text>
+            ) 
+        })*/
         return (
-            <SafeAreaView style={styles.container}>
+            <View style={styles.container}>
                 <Text h3 style={{ textAlign: 'center', color: 'white' }}>Your Available Quizzes</Text>
-                {quizButtons}
-            </SafeAreaView>
+                {
+                    this.context.uncompletedQuizzes.map(function (val, index) {
+                        //<Button title={val} key={val} onPress={() => this.context.playQuiz(index)}/>
+                        <Text key={val}>{this.context.uncompletedQuizzes}</Text>
+                    })
+                }
+            </View>
         );
     }
 }
-HomeScreen.contextType = CategoryContext
 
 const styles = StyleSheet.create({
     container: {
