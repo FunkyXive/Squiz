@@ -57,7 +57,6 @@ class App extends React.Component {
       />)
     }*/
     return (
-      <SafeAreaProvider>
         <CategoryContext.Provider value={
           {
             quizCategories: this.state.quizCategories,
@@ -77,7 +76,6 @@ class App extends React.Component {
             </Stack.Navigator>
           </NavigationContainer>
         </CategoryContext.Provider>
-      </SafeAreaProvider >
     );
   }
 }
