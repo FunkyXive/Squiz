@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let Quiz= new Schema(
+let Question= new Schema(
     {
         question: {
             type: String,
@@ -16,8 +16,12 @@ let Quiz= new Schema(
             required: true
         },
         category: {
+            type: [String],
+        },
+        difficulty: {
             type: String,
-            required: true
         }
     }
 )
+
+module.exports = mongoose.model("Question", Question);
