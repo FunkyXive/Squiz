@@ -14,7 +14,7 @@ userRoute.route('/add').post(function(req, res) {
         address: req.body.address,
         zipCode: req.body.zipCode,
         city: req.body.city,
-        role: 'normal'
+        role: 'admin'
     })
     user.save().then(() => {
         let token = jwt.sign({ id: user.id }, config.secret, { expiresIn: 86400 }) // expires in 24 hours
