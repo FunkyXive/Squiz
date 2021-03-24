@@ -17,18 +17,16 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      quizCategories: [
-        'Sports',
-        'Cuisine',
-        'Video Games'
-      ],
+      quizCategories: fetch('http://localhost:4001/quiz/getallcategories'),
       uncompletedQuizzes: [
         'Food',
         'Animals',
         'Video Games'
       ],
       currentQuiz: '',
-      completedQuizzes: []
+      completedQuizzes: [],
+      currentCategory: '',
+
     }
   }
 
@@ -45,6 +43,12 @@ class App extends React.Component {
     this.setState({
       currentQuiz
     })
+  }
+
+  pickCategory = (index) => {
+    const {
+
+    }
   }
 
   render() {
