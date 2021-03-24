@@ -9,25 +9,24 @@ let Quiz = new Schema(
         },
         questions: [new Schema(
             {
-                question: {
-                    type: String,
-                    required: true,
-                },
+                question: String,
                 answers: {
-                    type: [String],
-                    required: true,
-                },
-                correctAnswer: {
-                    type: Number,
-                    required: true
-                },
-                category: {
-                    type: String,
-                    enum: Categories,
-                },
-                difficulty: {
-                    type: String,
-                    enum: ['Easy','Medium','Hard','200IQ',]
+                    answer1: {
+                        answer: String,
+                        isCorrect: Boolean
+                    },
+                    answer2: {
+                        answer: String,
+                        isCorrect: Boolean
+                    },
+                    answer3: {
+                        answer: String,
+                        isCorrect: Boolean
+                    },
+                    answer4: {
+                        answer: String,
+                        isCorrect: Boolean
+                    },
                 }
             }
         )],
