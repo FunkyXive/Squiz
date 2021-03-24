@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -13,11 +13,11 @@ import CategoryScreen from './CategoryScreen'
 
 const Stack = createStackNavigator()
 
-class App extends React.Component {
+/* class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      quizCategories: fetch('http://localhost:4001/quiz/getallcategories'),
+      quizCategories : [],
       uncompletedQuizzes: [
         'Food',
         'Animals',
@@ -46,9 +46,15 @@ class App extends React.Component {
   }
 
   pickCategory = (index) => {
-    const {
+    let {currentCategory} = this.state
+    const {quizCategories} = this.state
 
-    }
+    currentCategory = quizCategories[index]
+
+    this.setState({
+      currentCategory,
+      quizCategories
+    })
   }
 
   render() {
@@ -59,7 +65,7 @@ class App extends React.Component {
         centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
         rightComponent={{ icon: 'home', color: '#fff' }}
       />)
-    }*/
+    }
     return (
         <CategoryContext.Provider value={
           {
@@ -67,13 +73,15 @@ class App extends React.Component {
             completedQuizzes: this.state.completedQuizzes,
             uncompletedQuizzes: this.state.uncompletedQuizzes,
             currentQuiz: this.state.currentQuiz,
-            playQuiz: this.playQuiz
+            playQuiz: this.playQuiz,
+            pickCategory: this.pickCategory,
+            getCategories: this.getCategories
           }
         }>
           <NavigationContainer>
-            <Stack.Navigator /*screenOptions={{
+            <Stack.Navigator screenOptions={{
               header: header,
-            }}*/>
+            }}>
               <Stack.Screen name="Home" component={HomeScreen} />
               <Stack.Screen name="Category" component={CategoryScreen} />
               <Stack.Screen name="Quiz" component={QuizScreen} />
@@ -82,6 +90,32 @@ class App extends React.Component {
         </CategoryContext.Provider>
     );
   }
+} */
+
+const App = (props) => {
+  const [categories, setCategories] = useState([])
+  const [currentCategory, setCurrentCategory] = useState({})
+  const [completedQuizzes, setCompletedQuizzes] = useState([])
+  const [uncompletedQuizzes, setUncompletedQuizzes] = useState([])
+  const [currentQuiz, setCurrentQuiz] = useState({})
+  const [state, setState] = useState([{categories}, {currentCategory}, {completedQuizzes}, {uncompletedQuizzes}, {currentQuiz}])
+
+  useEffect(() => {
+    fetch('http://localhost:4001/quiz/getallcategories')
+    .then((response) => response.json())
+    .then((json) => setCategories(json))
+    .catch((error) => console.error(error))
+  })
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen}/>
+        <Stack.Screen name="Category" component={CategoryScreen}/>
+        <Stack.Screen name="Quiz" component={QuizScreen}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
 
 const styles = StyleSheet.create({

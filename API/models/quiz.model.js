@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Categories = ['Sport','Computers & IT','Gaming','Sports','Celebrities','Culture','Esport']
+const Categories = ['Sport','Computers & IT','Gaming','Sports','Celebrities','Culture','Esport', 'Geography']
 let Quiz = new Schema(
     {
         name: {
