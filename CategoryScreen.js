@@ -41,7 +41,7 @@ const CategoryScreen = (props) => {
         // IP needs to be explicitly set to server's IP instead of just localhost:PORT because of emulation pointing to device ip when using localhost
         fetch(`http://10.142.98.224:4001/quiz/getbycategory/${currentQuizCategory}`)
         .then((response) => response.json())
-        .then((json) => setAllQuizzesInCategory(json))
+        .then((json) => setAllQuizzesInCategory(json.))
         .catch((error) => console.error(error))
         .finally(() => {
             /*extractUncompletedQuizzesInCategory(currentQuizCategory).then(() => {
