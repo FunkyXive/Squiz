@@ -15,7 +15,7 @@ quizRoute.route('/getall').get(function(req, res){
     })
 })
 
-quizRoute.route('/getbycategory/:category').get(function(req, rex){
+quizRoute.route('/getbycategory/:category').get(function(req, res){
     let req_category = req.params.category
     Quiz.find({category: req_category}, function(err, quizzes){
         if (err){

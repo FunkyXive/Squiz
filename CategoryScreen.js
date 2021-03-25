@@ -1,35 +1,83 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View } from 'react-native';
+import { AsyncStorage } from '@react-native-community/async-storage';
 import { Button, StyleSheet, SafeAreaView } from 'react-native';
 import { Text, Icon } from 'react-native-elements'
+import QuizIcon from './QuizIcon'
 import { CategoryContext } from './CategoryContext'
+import { QuizContext } from './QuizContext'
 
 const CategoryScreen = (props) => {
     const [isLoading, setLoading] = useState(true)
-    const [uncompletedQuizzesInCategory, setUncompletedQuizzes] = useState([])
+    const [uncompletedQuizzesInCategory, setUncompletedQuizzesInCategory] = useState([])
     const [allQuizzesInCategory , setAllQuizzesInCategory] = useState([])
     const [selectedQuiz, setSelectedQuiz] = useState({})
     
-    const context = useContext(CategoryContext)
+    const currentQuizCategory = props.route.params.quizCategory
 
-    console.log(context)
+    const setUncompletedQuizzesInCategoryLocal = async (uncompletedQuizzesInCategoryData, currentQuizCategoryData) => {
+        try {
+            await AsyncStorage.setItem(`uncompletedQuizzesInCategory${currentQuizCategoryData}`, JSON.stringify(uncompletedQuizzesInCategoryData))
+        }
+        catch (err) {console.err(err)}
+    }
+
+    // TODO: Change function name to something more descriptive
+    const extractUncompletedQuizzesInCategory = async (currentQuizCategoryData) => {
+        try{
+            await AsyncStorage.getItem(`uncompletedQuizzesInCategory${currentQuizCategoryData}`).then((data) => {
+                if(data != null){
+                    setUncompletedQuizzesInCategory(data)
+                } else {
+                    setUncompletedQuizzesInCategory(allQuizzesInCategory)
+                }
+            }).catch((error) => console.error(error))
+        } catch (err){
+            console.error(err)
+        }
+    }
 
     useEffect(() => {
         // IP needs to be explicitly set to server's IP instead of just localhost:PORT because of emulation pointing to device ip when using localhost
-        fetch(`http://10.142.98.224:4001/quiz/getbycategory/${context.currentQuizCategory}`)
+        fetch(`http://10.142.98.224:4001/quiz/getbycategory/${currentQuizCategory}`)
         .then((response) => response.json())
         .then((json) => setAllQuizzesInCategory(json))
         .catch((error) => console.error(error))
-        .finally(() => setLoading(false))
+        .finally(() => {
+            /*extractUncompletedQuizzesInCategory(currentQuizCategory).then(() => {
+                setUncompletedQuizzesInCategoryLocal(uncompletedQuizzesInCategory, currentQuizCategory).then(() => {
+                    console.log('yeet')
+                    setLoading(false)
+                })
+                .catch((error) => console.error(error))
+            })
+            .catch((error) => console.error(error))*/
+            //console.log(allQuizzesInCategory)
+            setLoading(false)
+        })
     })
     
     return(
-        <View style={styles.container}>
+        <QuizContext.Provider value={selectedQuiz}>
+            <View style={styles.container}>
             {isLoading ? <Text>Loading..</Text> : 
             (
-                <Text>Yeet</Text>
+                <View>
+                    <Text>{currentQuizCategory}</Text>
+                    {
+                        allQuizzesInCategory.map((val, index) => {
+                            return (
+                                <QuizIcon name={val} key={val} onPress={() => {
+                                    setSelectedQuiz(allQuizzesInCategory[index])
+                                    props.navigation.navigate('Quiz')
+                                }}/>
+                            )
+                        })
+                    }
+                </View>    
             )}
-        </View>
+            </View>
+        </QuizContext.Provider>
     )
 }
 
